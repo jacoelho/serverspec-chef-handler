@@ -25,7 +25,9 @@ class Chef
 
             File.open(File.join(spec_dir, "#{recipe}_spec.rb"), 'w') do |file|
               file.write("context 'recipe[#{cookbook}::#{recipe}]' do\n")
-              resources.each { |r| file.write(r.to_serverspec) }
+              resources.each do |r|
+                file.write(r.to_serverspec)
+              end
               file.write("end\n")
             end
           end

@@ -5,24 +5,23 @@ class Chef
     class Group < Chef::Resource
       def to_serverspec
         ERB.new(
-          <<-EOT
+          <<-EOT,
 
-  describe group('<%= group_name %>') do
-<% unless action.include? :remove %>
+  describe group('#{group_name}') do
+<%- unless action.include? :remove -%>
     it { should exist }
-    it { should have_gid <%= gid %> }
-<% else %>
+    it { should have_gid #{gid} }
+<%- else -%>
       it { should_not exist }
-<% end %>
+<%- end -%>
   end
-
-  <% users.each do |user| %>
+<% users.each do |user| %>
   describe user('<%= user %>') do
-    it { should belong_to_group '<%= group_name %>' }
+    it { should belong_to_group '#{group_name}' }
   end
-  <% end %>
+<% end %>
 EOT
-        ).result(binding)
+          safe_level = nil, trim_mode = '-').result(binding)
       end
     end
   end

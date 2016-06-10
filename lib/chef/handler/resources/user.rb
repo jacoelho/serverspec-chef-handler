@@ -3,26 +3,26 @@ class Chef
     class User < Chef::Resource
       def to_serverspec
         ERB.new(
-          <<-EOT
+          <<-EOT,
 
-  describe user('<%= username %>') do
-<% unless action.include? :remove %>
+  describe user('#{username}') do
+<%- unless action.include? :remove -%>
     it { should exist }
-    <% if uid %>
-    it { should have_uid <%= uid %> }
-    <% end %>
-    <% if shell %>
-    it { should have_login_shell '<%= shell %>' }
-    <% end %>
-    <% if home %>
-    it { should have_home_directory '<%= home %>' }
-    <% end %>
-    <% else %>
+    <%- if uid -%>
+    it { should have_uid #{uid} }
+    <%- end -%>
+    <%- if shell -%>
+    it { should have_login_shell '#{shell}' }
+    <%- end -%>
+    <%- if home -%>
+    it { should have_home_directory '#{home}' }
+    <%- end -%>
+<%- else -%>
       it { should_not exist }
-    <% end %>
+<%- end -%>
   end
 EOT
-        ).result(binding)
+          safe_level = nil, trim_mode = '-').result(binding)
       end
     end
   end
