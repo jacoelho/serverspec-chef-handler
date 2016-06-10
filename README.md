@@ -29,3 +29,11 @@ chef_handler 'Chef::Handler::Serverspec' do
   supports report: true
 end
 ```
+
+# Thanks
+
+Thank you [tily](https://github.com/tily/chef-serverspec-handler) for the original idea.
+
+# Author Information
+
+[jacoelho](https://www.jacoelho.com)
